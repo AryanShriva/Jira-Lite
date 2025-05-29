@@ -1,0 +1,16 @@
+# Angular
+jira_lite_frontend_angular/node_modules/
+jira_lite_frontend_angular/dist/
+
+# Java (Maven or Gradle)
+jira_lite_backend_java/target/
+
+# IntelliJ / VSCode / IDEs
+*.iml
+.idea/
+.vscode/
+
+# OS & misc
+.DS_Store
+Thumbs.db
+.env
