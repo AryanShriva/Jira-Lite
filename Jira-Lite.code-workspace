@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "name": "Frontend - Angular",
+      "path": "jira_lite_frontend_angular"
+    },
+    {
+      "name": "Backend - Spring Boot",
+      "path": "jira_lite_backend_java"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.classpath": true,
+      "**/.project": true,
+      "**/.settings": true,
+      "**/target": true,
+      "**/node_modules": true
+    },
+    "terminal.integrated.cwd": "jira_lite_frontend_angular"
+  }
+}
