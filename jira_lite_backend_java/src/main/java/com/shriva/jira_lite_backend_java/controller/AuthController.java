@@ -2,6 +2,7 @@ package com.shriva.jira_lite_backend_java.controller;
 
 import com.shriva.jira_lite_backend_java.dto.AuthRequest;
 import com.shriva.jira_lite_backend_java.dto.AuthResponse;
+import com.shriva.jira_lite_backend_java.entity.Role;
 import com.shriva.jira_lite_backend_java.entity.User;
 import com.shriva.jira_lite_backend_java.repository.UserRepository;
 import com.shriva.jira_lite_backend_java.util.JwtUtil;
@@ -17,7 +18,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -48,15 +52,77 @@ public class AuthController {
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
             logger.info("User found: {}", user.getUsername());
 
-            String jwt = jwtUtil.generateToken(user.getEmail(), user.getRole(), user.getId());
-            logger.info("JWT generated for user: {}", user.getUsername());
-            return ResponseEntity.ok(new AuthResponse(jwt, user.getId(), user.getRole().replace("ROLE_", "")));
+            // Temporarily bypass JWT generation
+            String jwt = "temp-jwt-bypass-" + user.getEmail();
+            logger.info("Bypassing JWT generation for user: {}", user.getUsername());
+            return ResponseEntity.ok(new AuthResponse(jwt, user.getId(), user.getRole()));
         } catch (BadCredentialsException e) {
             logger.error("Invalid credentials for email: {}", authRequest.getEmail());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse(null, null, null));
         } catch (Exception e) {
             logger.error("Login error for email: {}: {}", authRequest.getEmail(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse(null, null, null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AuthResponse(null, null, null));
         }
+    }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@RequestBody UserRegistrationRequest registrationRequest) {
+        User user = new User();
+        user.setEmail(registrationRequest.getEmail());
+        user.setUsername(registrationRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        user.setCreatedAt(LocalDateTime.now());
+
+        // Validate and set role
+        String requestedRole = registrationRequest.getRole() != null ? registrationRequest.getRole().toUpperCase() : "DEVELOPER";
+        Role roleEnum = Role.fromString(requestedRole);
+        if (roleEnum == Role.ADMIN) {
+            throw new IllegalArgumentException("ADMIN role cannot be assigned during registration");
+        }
+        user.setRole(requestedRole);
+
+        return ResponseEntity.ok(userRepository.save(user));
+    }
+}
+
+class UserRegistrationRequest {
+    private String email;
+    private String username;
+    private String password;
+    private String role;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
