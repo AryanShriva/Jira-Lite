@@ -1,21 +1,20 @@
 package com.shriva.jira_lite_backend_java.config;
 
-import com.shriva.jira_lite_backend_java.util.JwtUtil;
+import com.shriva.jira_lite_backend_java.service.CustomUserDetailsService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
@@ -24,49 +23,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String path = request.getRequestURI();
-        logger.info("Processing request: {}", path);
-        if (path.startsWith("/api/auth/login") || path.startsWith("/api/auth/register")) {
-            logger.info("Skipping JWT filter for: {}", path);
-            chain.doFilter(request, response);
-            return;
-        }
+        String requestURI = request.getRequestURI();
+        logger.info("Processing request: {}", requestURI);
 
         String authHeader = request.getHeader("Authorization");
-        String token = null;
-        String username = null;
+        logger.debug("Authorization header: {}", authHeader);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
-            // Temporary bypass check
+            String token = authHeader.substring(7);
+            logger.debug("Extracted token: {}", token);
+
             if (token.startsWith("temp-jwt-bypass-")) {
-                username = token.replace("temp-jwt-bypass-", "");
+                String username = token.replace("temp-jwt-bypass-", "");
                 logger.info("Bypass token detected, extracted username: {}", username);
-            } else {
-                username = jwtUtil.extractUsername(token);
-                logger.info("Extracted username from token: {}", username);
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                logger.info("Authenticated user: {}", username);
+
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            // Skip validation for bypass token
-            if (token.startsWith("temp-jwt-bypass-") || jwtUtil.validateToken(token, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                logger.info("Authenticated user: {}", username);
-            }
-        }
-        chain.doFilter(request, response);
+        filterChain.doFilter(request, response);
     }
 }

@@ -1,5 +1,6 @@
 package com.shriva.jira_lite_backend_java.controller;
 
+import com.shriva.jira_lite_backend_java.dto.RoleUpdateRequest;
 import com.shriva.jira_lite_backend_java.dto.UserDto;
 import com.shriva.jira_lite_backend_java.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,17 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserDto> updateUserRole(@PathVariable Long id, @Valid @RequestBody RoleUpdateRequest request) {
+        try {
+            UserDto updatedUser = userService.updateUserRole(id, request.getRole());
+            return ResponseEntity.ok(updatedUser);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 }
