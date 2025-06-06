@@ -7,6 +7,8 @@ import com.shriva.jira_lite_backend_java.entity.User;
 import com.shriva.jira_lite_backend_java.repository.UserRepository;
 import com.shriva.jira_lite_backend_java.util.JwtUtil;
 import jakarta.validation.Valid;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,41 +90,12 @@ public class AuthController {
     }
 }
 
+@Setter
+@Getter
 class UserRegistrationRequest {
     private String email;
     private String username;
     private String password;
     private String role;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

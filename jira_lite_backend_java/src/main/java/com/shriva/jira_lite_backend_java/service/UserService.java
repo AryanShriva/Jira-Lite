@@ -16,4 +16,6 @@ public interface UserService {
     void deleteUser(Long id);
 
     UserDto updateUserRole(Long userId, String newRole);
+
+    List<UserDto> getAssignableUsers();
 }

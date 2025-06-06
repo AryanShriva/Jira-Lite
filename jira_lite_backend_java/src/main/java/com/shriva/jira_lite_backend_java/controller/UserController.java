@@ -81,4 +81,11 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/assignable")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOPER', 'MANAGER')")
+    public ResponseEntity<List<UserDto>> getAssignableUsers() {
+        List<UserDto> users = userService.getAssignableUsers();
+        return ResponseEntity.ok(users);
+    }
 }

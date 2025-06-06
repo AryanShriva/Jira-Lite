@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProjectService {
@@ -88,5 +87,9 @@ public class ProjectService {
     public void deleteProject(Long id) {
         Project project = getProjectById(id);
         projectRepository.delete(project);
+    }
+
+    public List<Project> filterProjects(Project.ProjectStatus status, Project.ProjectPriority priority) {
+        return projectRepository.findByStatusAndPriority(status, priority);
     }
 }
