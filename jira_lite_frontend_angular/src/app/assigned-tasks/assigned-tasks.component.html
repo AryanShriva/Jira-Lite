@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Your Assigned Tasks</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <mat-list *ngIf="tasks.length > 0; else noTasks">
+      <mat-list-item *ngFor="let task of tasks">
+        <span>{{ task.title }} - {{ task.description }} (Status: {{ task.status }})</span>
+      </mat-list-item>
+    </mat-list>
+
+    <ng-template #noTasks>
+      <p>No tasks assigned to you.</p>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

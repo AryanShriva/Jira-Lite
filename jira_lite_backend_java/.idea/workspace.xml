@@ -6,20 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="18359235-7f43-40cb-a0da-2a9b3071d72f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/ProjectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/TaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/entity/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/entity/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/repository/ProjectRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/repository/ProjectRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/repository/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/repository/TaskRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/ProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/ProjectService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/TaskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/shriva/jira_lite_backend_java/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/app/app.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/environments/environment.prod.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/environments/environment.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/polyfills.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../jira_lite_frontend_angular/src/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
