@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import { MatCardModule } from '@angular/material/card';
     CommonModule,
     RouterOutlet,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    RouterLink
   ]
 })
 export class AppComponent {
@@ -32,5 +34,22 @@ export class AppComponent {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  isAdmin(): boolean {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      return user.role === 'ADMIN';
+    }
+    return false;
+  }
+  isManagerOrAdmin(): boolean {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      return user.role === 'MANAGER' || user.role === 'ADMIN';
+    }
+    return false;
   }
 }

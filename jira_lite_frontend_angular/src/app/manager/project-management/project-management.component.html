@@ -1,0 +1,92 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Project Management (MANAGER/ADMIN Only)</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Create Project Form -->
+    <form [formGroup]="createProjectForm" (ngSubmit)="onCreateProject()">
+      <mat-form-field appearance="fill">
+        <mat-label>Project Name</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error *ngIf="createProjectForm.get('name')?.hasError('required')">
+          Project name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" required />
+        <mat-error *ngIf="createProjectForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="createProjectForm.invalid">
+        Create Project
+      </button>
+    </form>
+
+    <!-- Projects Table -->
+    <mat-table [dataSource]="projects" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let project"> {{ project.id }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let project"> {{ project.name }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let project"> {{ project.description }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let project">
+          <button mat-raised-button color="accent" (click)="onEditProject(project)">Edit</button>
+          <button mat-raised-button color="warn" (click)="onDeleteProject(project.id)" style="margin-left: 10px;">Delete</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <!-- Update Project Form (shown when editing) -->
+    <div *ngIf="updateProjectForm">
+      <h3>Edit Project</h3>
+      <form [formGroup]="updateProjectForm" (ngSubmit)="onUpdateProject()">
+        <mat-form-field appearance="fill">
+          <mat-label>Project Name</mat-label>
+          <input matInput formControlName="name" required />
+          <mat-error *ngIf="updateProjectForm.get('name')?.hasError('required')">
+            Project name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" required />
+          <mat-error *ngIf="updateProjectForm.get('description')?.hasError('required')">
+            Description is required
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="updateProjectForm.invalid">
+          Update Project
+        </button>
+        <button mat-raised-button color="basic" (click)="cancelEdit()" style="margin-left: 10px;">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

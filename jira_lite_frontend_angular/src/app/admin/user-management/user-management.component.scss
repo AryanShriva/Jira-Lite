@@ -1,0 +1,33 @@
+mat-card {
+  max-width: 800px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  margin: 10px 0;
+}
+
+.mat-table {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 10px;
+  text-align: center;
+}
+
+h3 {
+  margin-top: 20px;
+}

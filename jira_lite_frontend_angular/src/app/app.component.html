@@ -8,3 +8,26 @@
   </mat-card-content>
 </mat-card>
 <router-outlet></router-outlet>
+
+<div class="landing-container">
+  <h1>Welcome to Jira-Lite</h1>
+  <p>Manage your projects and tasks efficiently.</p>
+  <button mat-raised-button color="primary" (click)="onGetStarted()">Get Started</button>
+  <div *ngIf="isAdmin()" style="margin-top: 20px;">
+    <a mat-raised-button color="accent" [routerLink]="['/admin/users']">User Management (ADMIN)</a>
+  </div>
+</div>
+<router-outlet></router-outlet>
+
+<div class="landing-container">
+  <h1>Welcome to Jira-Lite</h1>
+  <p>Manage your projects and tasks efficiently.</p>
+  <button mat-raised-button color="primary" (click)="onGetStarted()">Get Started</button>
+  <div *ngIf="isAdmin()" style="margin-top: 20px;">
+    <a mat-raised-button color="accent" [routerLink]="['/admin/users']">User Management (ADMIN)</a>
+  </div>
+  <div *ngIf="isManagerOrAdmin()" style="margin-top: 20px;">
+    <a mat-raised-button color="accent" [routerLink]="['/manager/projects']">Project Management (MANAGER/ADMIN)</a>
+  </div>
+</div>
+<router-outlet></router-outlet>
