@@ -31,3 +31,20 @@
   </div>
 </div>
 <router-outlet></router-outlet>
+
+<div class="landing-container">
+  <h1>Welcome to Jira-Lite</h1>
+  <p>Manage your projects and tasks efficiently.</p>
+  <button mat-raised-button color="primary" (click)="onGetStarted()">Get Started</button>
+  <div *ngIf="isLoggedIn()" style="margin-top: 20px;">
+    <a mat-raised-button color="accent" [routerLink]="['/tasks']">My Tasks</a>
+  </div>
+  <div *ngIf="isAdmin()" style="margin-top: 20px;">
+    <a mat-raised-button color="accent" [routerLink]="['/admin/users']">User Management (ADMIN)</a>
+  </div>
+  <div *ngIf="isManagerOrAdmin()" style="margin-top: 20px;">
+    <a mat-raised-button color="accent" [routerLink]="['/manager/projects']">Project Management (MANAGER/ADMIN)</a>
+    <a mat-raised-button color="accent" [routerLink]="['/manager/tasks']" style="margin-left: 10px;">Task Management (MANAGER/ADMIN)</a>
+  </div>
+</div>
+<router-outlet></router-outlet>

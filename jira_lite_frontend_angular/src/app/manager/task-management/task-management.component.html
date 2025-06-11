@@ -1,0 +1,179 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Task Management (MANAGER/ADMIN Only)</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Create Task Form -->
+    <form [formGroup]="createTaskForm" (ngSubmit)="onCreateTask()">
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" required />
+        <mat-error *ngIf="createTaskForm.get('title')?.hasError('required')">
+          Title is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" required />
+        <mat-error *ngIf="createTaskForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createTaskForm.get('status')?.hasError('required')">
+          Status is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Project</mat-label>
+        <mat-select formControlName="projectId" required>
+          <mat-option *ngFor="let project of projects" [value]="project.id">
+            {{ project.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createTaskForm.get('projectId')?.hasError('required')">
+          Project is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Assignee</mat-label>
+        <mat-select formControlName="assigneeId" required>
+          <mat-option *ngFor="let user of users" [value]="user.id">
+            {{ user.email }} ({{ user.role }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createTaskForm.get('assigneeId')?.hasError('required')">
+          Assignee is required
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="createTaskForm.invalid">
+        Create Task
+      </button>
+    </form>
+
+    <!-- Tasks Table -->
+    <mat-table [dataSource]="tasks" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let task"> {{ task.id }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+        <mat-cell *matCellDef="let task"> {{ task.title }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let task"> {{ task.description }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let task"> {{ task.status }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="projectId">
+        <mat-header-cell *matHeaderCellDef> Project ID </mat-header-cell>
+        <mat-cell *matCellDef="let task"> {{ task.projectId }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="assigneeId">
+        <mat-header-cell *matHeaderCellDef> Assignee ID </mat-header-cell>
+        <mat-cell *matCellDef="let task"> {{ task.assigneeId }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let task">
+          <button mat-raised-button color="accent" (click)="onEditTask(task)">Edit</button>
+          <button mat-raised-button color="warn" (click)="onDeleteTask(task.id)" style="margin-left: 10px;">Delete</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <!-- Update Task Form (shown when editing) -->
+    <div *ngIf="updateTaskForm">
+      <h3>Edit Task</h3>
+      <form [formGroup]="updateTaskForm" (ngSubmit)="onUpdateTask()">
+        <mat-form-field appearance="fill">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" required />
+          <mat-error *ngIf="updateTaskForm.get('title')?.hasError('required')">
+            Title is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" required />
+          <mat-error *ngIf="updateTaskForm.get('description')?.hasError('required')">
+            Description is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option *ngFor="let status of statuses" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="updateTaskForm.get('status')?.hasError('required')">
+            Status is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Project</mat-label>
+          <mat-select formControlName="projectId" required>
+            <mat-option *ngFor="let project of projects" [value]="project.id">
+              {{ project.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="updateTaskForm.get('projectId')?.hasError('required')">
+            Project is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Assignee</mat-label>
+          <mat-select formControlName="assigneeId" required>
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.email }} ({{ user.role }})
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="updateTaskForm.get('assigneeId')?.hasError('required')">
+            Assignee is required
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="updateTaskForm.invalid">
+          Update Task
+        </button>
+        <button mat-raised-button color="basic" (click)="cancelEdit()" style="margin-left: 10px;">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

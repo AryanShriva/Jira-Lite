@@ -1,20 +1,50 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Your Assigned Tasks</mat-card-title>
+    <mat-card-title>My Assigned Tasks</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <!-- Error Message -->
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
     </div>
 
+    <!-- Task List -->
     <mat-list *ngIf="tasks.length > 0; else noTasks">
       <mat-list-item *ngFor="let task of tasks">
-        <span>{{ task.title }} - {{ task.description }} (Status: {{ task.status }})</span>
+        <span>{{ task.title }} (Status: {{ task.status }})</span>
+        <button mat-raised-button color="primary" (click)="selectTask(task)" style="margin-left: 10px;">
+          View Details
+        </button>
       </mat-list-item>
     </mat-list>
 
     <ng-template #noTasks>
       <p>No tasks assigned to you.</p>
     </ng-template>
+
+    <!-- Task Details and Status Update -->
+    <div *ngIf="selectedTask">
+      <h3>Task Details</h3>
+      <p><strong>Title:</strong> {{ selectedTask.title }}</p>
+      <p><strong>Description:</strong> {{ selectedTask.description }}</p>
+      <p><strong>Project ID:</strong> {{ selectedTask.projectId }}</p>
+      <p><strong>Assignee ID:</strong> {{ selectedTask.assigneeId }}</p>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="selectedTask.status">
+          <mat-option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="updateTaskStatus()" style="margin-left: 10px;">
+        Update Status
+      </button>
+      <button mat-raised-button color="basic" (click)="cancelEdit()" style="margin-left: 10px;">
+        Cancel
+      </button>
+    </div>
   </mat-card-content>
 </mat-card>

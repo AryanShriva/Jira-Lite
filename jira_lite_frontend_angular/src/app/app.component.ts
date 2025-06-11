@@ -52,4 +52,7 @@ export class AppComponent {
     }
     return false;
   }
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('authToken');
+  }
 }

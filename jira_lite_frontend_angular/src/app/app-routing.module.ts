@@ -5,13 +5,16 @@ import { RegisterComponent } from './register/register.component';
 import { AssignedTasksComponent } from './assigned-tasks/assigned-tasks.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { ProjectManagementComponent } from './manager/project-management/project-management.component';
+import { TaskManagementComponent } from './manager/task-management/task-management.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'assigned-tasks', component: AssignedTasksComponent },
+  { path: 'tasks', component: AssignedTasksComponent }, // For all users
+  { path: 'assigned-tasks', component: AssignedTasksComponent }, // Kept for backward compatibility
   { path: 'admin/users', component: UserManagementComponent },
   { path: 'manager/projects', component: ProjectManagementComponent },
+  { path: 'manager/tasks', component: TaskManagementComponent }, // For MANAGER/ADMIN
   { path: '', pathMatch: 'full', children: [] },
   { path: '**', redirectTo: '' }
 ];
