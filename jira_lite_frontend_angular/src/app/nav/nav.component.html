@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <span>Jira-Lite</span>
+  <span class="spacer"></span>
+  <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
+    <a mat-button routerLink="/tasks" routerLinkActive="active">My Tasks</a>
+    <a mat-button routerLink="/admin/users" routerLinkActive="active" *ngIf="isAdmin()">User Management</a>
+    <a mat-button routerLink="/manager/projects" routerLinkActive="active" *ngIf="isManagerOrAdmin()">Project Management</a>
+    <a mat-button routerLink="/manager/tasks" routerLinkActive="active" *ngIf="isManagerOrAdmin()">Task Management</a>
+    <button mat-button (click)="logout()">Logout</button>
+  </ng-container>
+  <ng-template #notLoggedIn>
+    <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
+    <a mat-button routerLink="/register" routerLinkActive="active">Register</a>
+  </ng-template>
+</mat-toolbar>

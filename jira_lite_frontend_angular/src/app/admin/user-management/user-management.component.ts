@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { User } from '../../user.model';
 
 @Component({
@@ -38,8 +37,7 @@ export class UserManagementComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private fb: FormBuilder,
-    private router: Router
+    private fb: FormBuilder
   ) {
     this.createUserForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -49,19 +47,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Check if user is ADMIN
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      const user = JSON.parse(userData);
-      if (user.role !== 'ADMIN') {
-        this.router.navigate(['/assigned-tasks']);
-        return;
-      }
-    } else {
-      this.router.navigate(['/login']);
-      return;
-    }
-
     this.loadUsers();
   }
 

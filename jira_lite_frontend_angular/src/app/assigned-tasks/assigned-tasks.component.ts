@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Task } from '../task.model';
 import { FormsModule } from '@angular/forms';
 
@@ -33,17 +32,15 @@ export class AssignedTasksComponent implements OnInit {
   selectedTask: Task | null = null;
   statuses = ['To Do', 'In Progress', 'Done'];
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  ngOnInit() {
+  constructor(private http: HttpClient) {
     const userData = localStorage.getItem('user');
     if (userData) {
       this.user = JSON.parse(userData);
-      this.loadAssignedTasks();
-    } else {
-      this.errorMessage = 'User not found. Please log in again.';
-      this.router.navigate(['/login']);
     }
+  }
+
+  ngOnInit() {
+    this.loadAssignedTasks();
   }
 
   loadAssignedTasks() {
@@ -69,7 +66,7 @@ export class AssignedTasksComponent implements OnInit {
   }
 
   selectTask(task: Task) {
-    this.selectedTask = { ...task }; // Create a copy to avoid direct binding
+    this.selectedTask = { ...task };
   }
 
   updateTaskStatus() {

@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Task } from '../../task.model';
 import { User } from '../../user.model';
 import { Project } from '../../project.model';
@@ -42,8 +41,7 @@ export class TaskManagementComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private fb: FormBuilder,
-    private router: Router
+    private fb: FormBuilder
   ) {
     this.createTaskForm = this.fb.group({
       title: ['', Validators.required],
@@ -55,19 +53,6 @@ export class TaskManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Check if user is MANAGER or ADMIN
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      const user = JSON.parse(userData);
-      if (user.role !== 'MANAGER' && user.role !== 'ADMIN') {
-        this.router.navigate(['/tasks']);
-        return;
-      }
-    } else {
-      this.router.navigate(['/login']);
-      return;
-    }
-
     this.loadUsers();
     this.loadProjects();
     this.loadTasks();

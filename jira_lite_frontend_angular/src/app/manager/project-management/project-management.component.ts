@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Project } from '../../project.model';
 
 @Component({
@@ -35,8 +34,7 @@ export class ProjectManagementComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private fb: FormBuilder,
-    private router: Router
+    private fb: FormBuilder
   ) {
     this.createProjectForm = this.fb.group({
       name: ['', Validators.required],
@@ -45,19 +43,6 @@ export class ProjectManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Check if user is MANAGER or ADMIN
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      const user = JSON.parse(userData);
-      if (user.role !== 'MANAGER' && user.role !== 'ADMIN') {
-        this.router.navigate(['/assigned-tasks']);
-        return;
-      }
-    } else {
-      this.router.navigate(['/login']);
-      return;
-    }
-
     this.loadProjects();
   }
 
