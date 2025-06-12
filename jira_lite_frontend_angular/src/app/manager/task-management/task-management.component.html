@@ -8,6 +8,26 @@
       {{ errorMessage }}
     </div>
 
+    <!-- Filter and Sort Controls -->
+    <div class="filter-sort-controls">
+      <mat-form-field appearance="fill">
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [(value)]="selectedStatus" (selectionChange)="filterTasks($event.value)">
+          <mat-option value="All">All</mat-option>
+          <mat-option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="basic" (click)="sortTasks('title')" style="margin-left: 10px;">
+        Sort by Title ({{ sortField === 'title' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }})
+      </button>
+      <button mat-raised-button color="basic" (click)="sortTasks('projectId')" style="margin-left: 10px;">
+        Sort by Project ID ({{ sortField === 'projectId' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }})
+      </button>
+    </div>
+
     <!-- Create Task Form -->
     <form [formGroup]="createTaskForm" (ngSubmit)="onCreateTask()">
       <mat-form-field appearance="fill">
@@ -68,7 +88,7 @@
     </form>
 
     <!-- Tasks Table -->
-    <mat-table [dataSource]="tasks" class="mat-elevation-z8">
+    <mat-table [dataSource]="filteredTasks" class="mat-elevation-z8">
       <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
         <mat-cell *matCellDef="let task"> {{ task.id }} </mat-cell>

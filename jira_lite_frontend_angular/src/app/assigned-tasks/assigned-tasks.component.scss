@@ -28,3 +28,14 @@ p {
 mat-form-field {
   margin-right: 10px;
 }
+
+.filter-sort-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-sort-controls mat-form-field {
+  width: 200px;
+  margin-right: 10px;
+}

@@ -8,9 +8,29 @@
       {{ errorMessage }}
     </div>
 
+    <!-- Filter and Sort Controls -->
+    <div class="filter-sort-controls">
+      <mat-form-field appearance="fill">
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [(value)]="selectedStatus" (selectionChange)="filterTasks($event.value)">
+          <mat-option value="All">All</mat-option>
+          <mat-option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="basic" (click)="sortTasks('title')" style="margin-left: 10px;">
+        Sort by Title ({{ sortField === 'title' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }})
+      </button>
+      <button mat-raised-button color="basic" (click)="sortTasks('projectId')" style="margin-left: 10px;">
+        Sort by Project ID ({{ sortField === 'projectId' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }})
+      </button>
+    </div>
+
     <!-- Task List -->
-    <mat-list *ngIf="tasks.length > 0; else noTasks">
-      <mat-list-item *ngFor="let task of tasks">
+    <mat-list *ngIf="filteredTasks.length > 0; else noTasks">
+      <mat-list-item *ngFor="let task of filteredTasks">
         <span>{{ task.title }} (Status: {{ task.status }})</span>
         <button mat-raised-button color="primary" (click)="selectTask(task)" style="margin-left: 10px;">
           View Details

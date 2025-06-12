@@ -27,10 +27,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class AssignedTasksComponent implements OnInit {
   tasks: Task[] = [];
+  filteredTasks: Task[] = [];
   user: { id: number, email: string, role: string } | null = null;
   errorMessage: string | null = null;
   selectedTask: Task | null = null;
   statuses = ['To Do', 'In Progress', 'Done'];
+  selectedStatus: string = 'All';
+  sortField: 'title' | 'projectId' | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private http: HttpClient) {
     const userData = localStorage.getItem('user');
@@ -57,6 +61,7 @@ export class AssignedTasksComponent implements OnInit {
     ).subscribe({
       next: (tasks) => {
         this.tasks = tasks;
+        this.applyFiltersAndSorting();
       },
       error: (err) => {
         this.errorMessage = 'Failed to load tasks. Please try again.';
@@ -89,6 +94,7 @@ export class AssignedTasksComponent implements OnInit {
         }
         this.selectedTask = null;
         this.errorMessage = null;
+        this.applyFiltersAndSorting();
       },
       error: (err) => {
         this.errorMessage = 'Failed to update task status. Please try again.';
@@ -99,5 +105,44 @@ export class AssignedTasksComponent implements OnInit {
 
   cancelEdit() {
     this.selectedTask = null;
+  }
+
+  filterTasks(status: string) {
+    this.selectedStatus = status;
+    this.applyFiltersAndSorting();
+  }
+
+  sortTasks(field: 'title' | 'projectId') {
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+    this.applyFiltersAndSorting();
+  }
+
+  applyFiltersAndSorting() {
+    let tasks = [...this.tasks];
+
+    // Apply status filter
+    if (this.selectedStatus !== 'All') {
+      tasks = tasks.filter(task => task.status === this.selectedStatus);
+    }
+
+    // Apply sorting
+    if (this.sortField) {
+      tasks.sort((a, b) => {
+        let comparison = 0;
+        if (this.sortField === 'title') {
+          comparison = a.title.localeCompare(b.title);
+        } else if (this.sortField === 'projectId') {
+          comparison = a.projectId - b.projectId;
+        }
+        return this.sortDirection === 'asc' ? comparison : -comparison;
+      });
+    }
+
+    this.filteredTasks = tasks;
   }
 }

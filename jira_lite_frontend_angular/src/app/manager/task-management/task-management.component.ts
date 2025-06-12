@@ -31,6 +31,7 @@ import { Project } from '../../project.model';
 })
 export class TaskManagementComponent implements OnInit {
   tasks: Task[] = [];
+  filteredTasks: Task[] = []; // For displaying filtered/sorted tasks
   users: User[] = [];
   projects: Project[] = [];
   displayedColumns: string[] = ['id', 'title', 'description', 'status', 'projectId', 'assigneeId', 'actions'];
@@ -38,6 +39,9 @@ export class TaskManagementComponent implements OnInit {
   updateTaskForm: FormGroup | null = null;
   errorMessage: string | null = null;
   statuses = ['To Do', 'In Progress', 'Done'];
+  selectedStatus: string = 'All'; // Default filter
+  sortField: 'title' | 'projectId' | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private http: HttpClient,
@@ -101,6 +105,7 @@ export class TaskManagementComponent implements OnInit {
     this.http.get<Task[]>('http://localhost:8080/api/tasks', { headers }).subscribe({
       next: (tasks) => {
         this.tasks = tasks;
+        this.applyFiltersAndSorting();
       },
       error: (err) => {
         this.errorMessage = 'Failed to load tasks. Please try again.';
@@ -121,6 +126,7 @@ export class TaskManagementComponent implements OnInit {
           this.tasks.push(newTask);
           this.createTaskForm.reset({ status: 'To Do' });
           this.errorMessage = null;
+          this.applyFiltersAndSorting();
         },
         error: (err) => {
           this.errorMessage = 'Failed to create task. Please try again.';
@@ -157,6 +163,7 @@ export class TaskManagementComponent implements OnInit {
           }
           this.updateTaskForm = null;
           this.errorMessage = null;
+          this.applyFiltersAndSorting();
         },
         error: (err) => {
           this.errorMessage = 'Failed to update task. Please try again.';
@@ -176,6 +183,7 @@ export class TaskManagementComponent implements OnInit {
       next: () => {
         this.tasks = this.tasks.filter(t => t.id !== taskId);
         this.errorMessage = null;
+        this.applyFiltersAndSorting();
       },
       error: (err) => {
         this.errorMessage = 'Failed to delete task. Please try again.';
@@ -186,5 +194,44 @@ export class TaskManagementComponent implements OnInit {
 
   cancelEdit() {
     this.updateTaskForm = null;
+  }
+
+  filterTasks(status: string) {
+    this.selectedStatus = status;
+    this.applyFiltersAndSorting();
+  }
+
+  sortTasks(field: 'title' | 'projectId') {
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+    this.applyFiltersAndSorting();
+  }
+
+  applyFiltersAndSorting() {
+    let tasks = [...this.tasks];
+
+    // Apply status filter
+    if (this.selectedStatus !== 'All') {
+      tasks = tasks.filter(task => task.status === this.selectedStatus);
+    }
+
+    // Apply sorting
+    if (this.sortField) {
+      tasks.sort((a, b) => {
+        let comparison = 0;
+        if (this.sortField === 'title') {
+          comparison = a.title.localeCompare(b.title);
+        } else if (this.sortField === 'projectId') {
+          comparison = a.projectId - b.projectId;
+        }
+        return this.sortDirection === 'asc' ? comparison : -comparison;
+      });
+    }
+
+    this.filteredTasks = tasks;
   }
 }
