@@ -6,7 +6,7 @@ import { AssignedTasksComponent } from './assigned-tasks/assigned-tasks.componen
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { ProjectManagementComponent } from './manager/project-management/project-management.component';
 import { TaskManagementComponent } from './manager/task-management/task-management.component';
-
+import { ProjectDashboardComponent } from './manager/project-dashboard/project-dashboard.component';
 import { AuthGuard } from './auth-guard';
 import { RoleGuard } from './role-guard';
 
@@ -16,30 +16,36 @@ export const routes: Routes = [
   { 
     path: 'tasks', 
     component: AssignedTasksComponent, 
-    canActivate: [AuthGuard] // Requires login
+    canActivate: [AuthGuard]
   },
   { 
     path: 'assigned-tasks', 
     component: AssignedTasksComponent, 
-    canActivate: [AuthGuard] // Requires login
+    canActivate: [AuthGuard]
   },
   { 
     path: 'admin/users', 
     component: UserManagementComponent, 
     canActivate: [AuthGuard, RoleGuard], 
-    data: { roles: ['ADMIN'] } // Requires ADMIN role
+    data: { roles: ['ADMIN'] }
   },
   { 
     path: 'manager/projects', 
     component: ProjectManagementComponent, 
     canActivate: [AuthGuard, RoleGuard], 
-    data: { roles: ['MANAGER', 'ADMIN'] } // Requires MANAGER or ADMIN role
+    data: { roles: ['MANAGER', 'ADMIN'] }
   },
   { 
     path: 'manager/tasks', 
     component: TaskManagementComponent, 
     canActivate: [AuthGuard, RoleGuard], 
-    data: { roles: ['MANAGER', 'ADMIN'] } // Requires MANAGER or ADMIN role
+    data: { roles: ['MANAGER', 'ADMIN'] }
+  },
+  { 
+    path: 'manager/dashboard', 
+    component: ProjectDashboardComponent, 
+    canActivate: [AuthGuard, RoleGuard], 
+    data: { roles: ['MANAGER', 'ADMIN'] }
   },
   { path: '', pathMatch: 'full', children: [] },
   { path: '**', redirectTo: '' }

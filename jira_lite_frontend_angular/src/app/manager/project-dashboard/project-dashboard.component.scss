@@ -1,0 +1,30 @@
+mat-card {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.project-summaries {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.project-card {
+  width: 300px;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  margin: 10px 0;
+  text-align: center;
+}
+
+mat-progress-bar {
+  margin: 10px 0;
+}
+
+p {
+  margin: 5px 0;
+}

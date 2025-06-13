@@ -4,6 +4,7 @@
   <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
     <a mat-button routerLink="/tasks" routerLinkActive="active">My Tasks</a>
     <a mat-button routerLink="/admin/users" routerLinkActive="active" *ngIf="isAdmin()">User Management</a>
+    <a mat-button routerLink="/manager/dashboard" routerLinkActive="active" *ngIf="isManagerOrAdmin()">Dashboard</a>
     <a mat-button routerLink="/manager/projects" routerLinkActive="active" *ngIf="isManagerOrAdmin()">Project Management</a>
     <a mat-button routerLink="/manager/tasks" routerLinkActive="active" *ngIf="isManagerOrAdmin()">Task Management</a>
     <button mat-button (click)="logout()">Logout</button>

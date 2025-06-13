@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Project Dashboard (MANAGER/ADMIN Only)</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Project Summaries -->
+    <div class="project-summaries">
+      <mat-card *ngFor="let summary of projectSummaries" class="project-card">
+        <mat-card-header>
+          <mat-card-title>{{ summary.project.name }}</mat-card-title>
+          <mat-card-subtitle>{{ summary.project.description }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Total Tasks:</strong> {{ summary.totalTasks }}</p>
+          <p><strong>To Do:</strong> {{ summary.tasksToDo }}</p>
+          <p><strong>In Progress:</strong> {{ summary.tasksInProgress }}</p>
+          <p><strong>Done:</strong> {{ summary.tasksDone }}</p>
+          <p><strong>Completion:</strong></p>
+          <mat-progress-bar mode="determinate" [value]="summary.completionPercentage"></mat-progress-bar>
+          <p>{{ summary.completionPercentage }}% Complete</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- No Projects Message -->
+    <div *ngIf="!projectSummaries.length && !errorMessage">
+      <p>No projects available.</p>
+    </div>
+  </mat-card-content>
+</mat-card>
